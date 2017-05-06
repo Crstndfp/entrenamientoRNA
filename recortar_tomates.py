@@ -75,6 +75,7 @@ def ecnontrar_tomate(imagen):
     # recortar(rectangulo_tomate)
     return rectangulo_tomate
 
-recorrer_directorio("tomates", "tomates-recortados", listdir("./tomates"))
+recorrer_directorio("tomates-buenos", "tomates-recortados-buenos", listdir("./tomates-buenos"))
+recorrer_directorio("tomates-malos", "tomates-recortados-malos", listdir("./tomates-malos"))
 
 
