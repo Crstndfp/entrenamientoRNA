@@ -1,7 +1,7 @@
 from PIL import Image
 from os import listdir
 
-def sacar_pixels(direccion):
+def sacar_pixels(direccion, salida_esperada):
     #se abre la imagen
     im = Image.open(direccion) 
     #lectura de pixels
@@ -16,12 +16,13 @@ def sacar_pixels(direccion):
             archivo_entrenamiento.write(cadena)
 
     #pix[x,y] = value # Set the RGBA Value of the image (tuple) 
-    archivo_entrenamiento.write("1")
+    archivo_entrenamiento.write(salida_esperada)
     archivo_entrenamiento.write("\n")
     archivo_entrenamiento.close()
 
-def recorrer_directorio(carpeta_entrada, lista_imagenes):
+def recorrer_directorio(carpeta_entrada, lista_imagenes, salida_esperada):
     for nombre_imagen in lista_imagenes:
-        sacar_pixels(carpeta_entrada + "/" +nombre_imagen)
+        sacar_pixels(carpeta_entrada + "/" +nombre_imagen, salida_esperada)
 
-recorrer_directorio("tomates-recortados", listdir("./tomates-recortados"))
+recorrer_directorio("tomates-recortados-buenos", listdir("./tomates-recortados-buenos"), "0.09 0.00 0.00 0.00 0.00")
+recorrer_directorio("tomates-recortados-malos",  listdir("./tomates-recortados-malos"),  "0.00 0.09 0.00 0.00 0.00")
