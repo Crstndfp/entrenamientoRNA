@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" 
+"""
 
 """
 
@@ -7,7 +7,7 @@ import neurolab as nl
 import numpy as np
 import scipy as sp
 
-
+# 
 datos = np.matrix(sp.genfromtxt("datos-entrenamiento.csv", delimiter=" "))
 
 entrada = datos[:,:-1]
@@ -30,4 +30,3 @@ salida = rna.sim(entrada)
 
 print rna.layers[0].np['w']
 print rna.layers[1].np['w']
-
