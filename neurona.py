@@ -11,14 +11,13 @@ import scipy as sp
 datos = np.matrix(sp.genfromtxt("datos-entrenamiento.csv", delimiter=" "))
 
 entrada = datos[:,:-1]
-
-print otro
-print entrada
-
 objetivo = datos[:,-1]
 
+maxmin = np.matrix([[ -5, 5] for i in range(len(entrada[1,:].T))])
+
+
 # Crear red neuronal con 2 capas
-rna = nl.net.newff([[-5, 5], [-5,5]], [14999, 5000, 1000, 100, 10, 1])
+rna = nl.net.newff(maxmin, [15000, 5000, 1000, 100, 10, 1])
 
 #Cambio de algoritmo a back progation simple
 rna.trainf = nl.train.train_gd
