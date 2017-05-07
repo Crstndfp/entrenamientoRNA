@@ -10,8 +10,9 @@ import scipy as sp
 
 datos = np.matrix(sp.genfromtxt("normalizado.csv", delimiter=" "))
 
+
 entrada = datos[:,:-5]
-objetivo = datos[:,-5]
+objetivo = datos[:,-5:]
 
 print objetivo
 
