@@ -17,9 +17,14 @@ objetivo = datos[:,-5:]
 
 maxmin = np.matrix([[ -5, 5] for i in range(len(entrada[1,:].T))])
 
+capa_entrada = entrada.shape[0]
+capa_oculta1 = int(capa_entrada*0.6)
+capa_oculta2 = int(capa_entrada*0.33)
+capa_salida = 5
+
 
 # Crear red neuronal con 2 capas
-rna = nl.net.newff(maxmin, [ entrada.shape[0], 750, 5])
+rna = nl.net.newff(maxmin, [ capa_entrada, capa_oculta1, capa_oculta2, capa_salida])
 
 #Cambio de algoritmo a back progation simple
 rna.trainf = nl.train.train_gd
