@@ -8,7 +8,7 @@ import numpy as np
 import scipy as sp
 
 
-datos = np.matrix(sp.genfromtxt("normalizado.csv", delimiter=" "))
+datos = np.matrix(sp.genfromtxt("datos-entrenamiento.csv", delimiter=" "))
 
 
 entrada = datos[:,:-5]
@@ -35,6 +35,7 @@ error = rna.train(entrada, objetivo, epochs=75000, show=10, goal=0.02)
 
 #rna.save("neurona.tmt")
 # Simulacion RNA
+rna.save("red-neuronal-artificial.tmt")
 salida = rna.sim(entrada)
 
 
