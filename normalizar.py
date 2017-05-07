@@ -18,7 +18,6 @@ def mandar(archivo, salida):
             b = str(normalizado[0, x2])
             archivo_entrenamiento.write(b[:b.find(".")+5])
             archivo_entrenamiento.write(" ")
-
         archivo_entrenamiento.write(salida)
         archivo_entrenamiento.write("\n")
     archivo_entrenamiento.close()
@@ -30,7 +29,7 @@ if(os.path.exists("normalizado.csv")== True):
     os.remove("normalizado.csv")
 dato = np.matrix(sp.genfromtxt("tomates-recortados-bueno.csv", delimiter=" "))
 dato2 = np.matrix(sp.genfromtxt("tomates-recortados-malos.csv", delimiter=" "))
-salida1 = "0.09 0 0 0 0 0"
-salida2 = "0 0.09 0 0 0 0"
+salida1 = "0.09 0 0 0 0"
+salida2 = "0 0.09 0 0 0"
 mandar(dato,salida1)
 mandar(dato2,salida2)
