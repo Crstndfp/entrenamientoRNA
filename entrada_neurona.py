@@ -1,13 +1,13 @@
 from PIL import Image
 from os import listdir
 
-def sacar_pixels(direccion):
+def sacar_pixels(direccion, archivo):
     #se abre la imagen
     im = Image.open(direccion) 
     #lectura de pixels
     pixels = im.load()
     #se abre el archivo para lectura escritura
-    archivo_entrenamiento = open("datos-entrenamiento.csv", "a")
+    archivo_entrenamiento = open(archivo, "a")
     filas, columnas = im.size
     for columna in range (columnas):
         for fila in range(filas):
@@ -19,9 +19,9 @@ def sacar_pixels(direccion):
     archivo_entrenamiento.write("\n")
     archivo_entrenamiento.close()
 
-def recorrer_directorio(carpeta_entrada, lista_imagenes, salida_esperada):
+def recorrer_directorio(carpeta_entrada, lista_imagenes, archivo):
     for nombre_imagen in lista_imagenes:
-        sacar_pixels(carpeta_entrada + "/" +nombre_imagen, salida_esperada)
+        sacar_pixels(carpeta_entrada + "/" +nombre_imagen, archivo)
 
-recorrer_directorio("tomates-recortados-buenos", listdir("./tomates-recortados-buenos"))
-recorrer_directorio("tomates-recortados-malos",  listdir("./tomates-recortados-malos"))
+recorrer_directorio("tomates-recortados-buenos", listdir("./tomates-recortados-buenos"), "tomates-recortados-bueno.csv")
+recorrer_directorio("tomates-recortados-malos",  listdir("./tomates-recortados-malos"), "tomates-recortados-malos.csv")
