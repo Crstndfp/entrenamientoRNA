@@ -3,7 +3,9 @@ from os import listdir
 
 def sacar_pixels(direccion, archivo):
     #se abre la imagen
-    im = Image.open(direccion) 
+    im = Image.open(direccion)
+    im = im.resize((50, 10), Image.ANTIALIAS)
+    #im.save("hola.jpg")
     #lectura de pixels
     pixels = im.load()
     #se abre el archivo para lectura escritura
@@ -23,5 +25,6 @@ def recorrer_directorio(carpeta_entrada, lista_imagenes, archivo):
     for nombre_imagen in lista_imagenes:
         sacar_pixels(carpeta_entrada + "/" +nombre_imagen, archivo)
 
-recorrer_directorio("tomates-recortados-buenos", listdir("./tomates-recortados-buenos"), "tomates-recortados-bueno.csv")
+recorrer_directorio("tomates-recortados-buenos", listdir("./tomates-recortados-buenos"), "tomates-recortados-buenos.csv")
 recorrer_directorio("tomates-recortados-malos",  listdir("./tomates-recortados-malos"), "tomates-recortados-malos.csv")
+recorrer_directorio("tomates-recortados-verdes-buenos", listdir("./tomates-recortados-verdes-buenos"), "tomates-recortados-verdes-buenos.csv")

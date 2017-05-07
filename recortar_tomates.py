@@ -71,11 +71,12 @@ def ecnontrar_tomate(imagen):
     contorno_tomate_gramde, mascara_tomate = encontar_contorno(mascara_limpia)
 
     rectangulo_tomate = contorno_rectangulo(imagen3, contorno_tomate_gramde)
-    rectangulo_tomate = cv2.resize(rectangulo_tomate, (100, 50))
+    #rectangulo_tomate = cv2.resize(rectangulo_tomate, (100, 50))
     # recortar(rectangulo_tomate)
     return rectangulo_tomate
 
 recorrer_directorio("tomates-buenos", "tomates-recortados-buenos", listdir("./tomates-buenos"))
 recorrer_directorio("tomates-malos", "tomates-recortados-malos", listdir("./tomates-malos"))
+recorrer_directorio("tomates-verdes-buenos", "tomates-recortados-verdes-buenos", listdir("./tomates-verdes-buenos"))
 
 
