@@ -15,7 +15,7 @@ def normalized(a, axis=-1, order=2):
 if(os.path.exists("normalizado.csv")== True):
     os.remove("normalizado.csv")
 datos = np.matrix(sp.genfromtxt("datos-entrenamiento.csv", delimiter=" "))
-entrada = datos[:,:-1]
+entrada = datos[:,:-5]
 
 archivo_entrenamiento = open("normalizado.csv", "a")
 for x1 in range(len(entrada[:, 0])):

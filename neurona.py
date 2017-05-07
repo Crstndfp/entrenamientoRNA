@@ -13,6 +13,8 @@ datos = np.matrix(sp.genfromtxt("normalizado.csv", delimiter=" "))
 entrada = datos[:,:-5]
 objetivo = datos[:,-5]
 
+print objetivo
+
 maxmin = np.matrix([[ -5, 5] for i in range(len(entrada[1,:].T))])
 
 
