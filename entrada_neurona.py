@@ -6,6 +6,7 @@ def sacar_pixels(direccion, entrada):
     #se abre la imagen
     im = Image.open(direccion)
     im = im.resize((40, 10), Image.ANTIALIAS)
+    #im = im.resize((100, 50), Image.ANTIALIAS)
     #im.save("hola.jpg")
     #lectura de pixels
     pixels = im.load()

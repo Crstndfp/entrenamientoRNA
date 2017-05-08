@@ -83,6 +83,7 @@ def sacar_pixels(imagen):
     #se abre la imagen
     im = Image.open(imagen)
     im = im.resize((40, 10), Image.ANTIALIAS)
+    #im = im.resize((100, 50), Image.ANTIALIAS)
     #im.save("hola.jpg")
     #lectura de pixels
     pixels = im.load()
@@ -130,6 +131,29 @@ print datos.shape
 rna = nl.load("red-neuronal-artificial.tmt")
 
 salida = rna.sim(datos)
-print "porcentaje de estado malo: " + str(salida[0][0])
-print "porcentaje de estado bueno: " + str(salida[0][1])
-print "porcentaje de estado verde: " + str(salida[0][2])
+
+podrido = salida[0][0] * 100
+maduro = salida[0][1] * 100
+verde = salida[0][2] * 100
+
+resultado = ""
+
+if (podrido > 80.):
+    if (maduro > 40.):
+        resultado = "el tomate esta a punto de podrirse"
+    else:
+        resultado = "el tomate esta podrido"
+elif (maduro > 80.):
+    if (podrido > 40.):
+        resultado = "el tomate esta pasandose de su madurez"
+    elif (verde > 40.):
+        resultado = "El tomate esta a punto de llegar a su madurez"
+    else:
+        resultado = "El tomate esta en su mejor punto"
+elif (verde > 80.):
+    if (maduro > 40.):
+        resultado = "el tomate esta madurando"
+    else:
+        resultado = "el tomate esta verde"
+
+print resultado
