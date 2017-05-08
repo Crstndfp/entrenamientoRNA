@@ -25,13 +25,13 @@ capa_salida = 3
 
 
 # Crear red neuronal con 2 capas
-rna = nl.net.newff(maxmin, [ capa_entrada, capa_entrada, capa_salida])
+rna = nl.net.newff(maxmin, [ capa_entrada, capa_entrada, capa_oculta1, capa_salida])
 
 #Cambio de algoritmo a back progation simple
 rna.trainf = nl.train.train_gd
 
 #Datos para la RNAd
-error = rna.train(entrada, objetivo, epochs=75000, show=100, goal=0.02, lr=0.01)
+error = rna.train(entrada, objetivo, epochs=7500000, show=100, goal=0.02, lr=0.01)
 
 
 #rna.save("neurona.tmt")
