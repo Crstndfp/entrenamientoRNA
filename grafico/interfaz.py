@@ -20,16 +20,16 @@ class Tomate(Frame):
     """
     ESta para solo contie codigo de interfaz dibujo de ventas label imagen
     """
-    global neuronas
     global encontar_contorno
     global contorno_rectangulo
     global ecnontrar_tomate
     global sacar_pixels
     global normalizar
+
     def abrir(self):
         Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
         filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
-        neuronas(filename)
+        self.neuronas(filename)
         self.imagen(filename)
 
     def imagen(self, filename):
@@ -189,7 +189,7 @@ class Tomate(Frame):
         salida = (valor*1.)/255.
         return salida
 
-    def neuronas(filedir):
+    def neuronas(self, filedir):
         imagen = cv2.imread(filedir)
         imagen = ecnontrar_tomate(imagen)
         cv2.imwrite("tomate-recortado.jpg",imagen)
@@ -202,9 +202,9 @@ class Tomate(Frame):
         datos = np.matrix(sp.genfromtxt("datos-tomate.csv", delimiter=" "))
         rna = nl.load('red-neuronal-artificial.tmt')
         salida = rna.sim(datos)
-        self.salida1(str(salida[0][0]))
-        self.salida2(str(salida[0][1]))
-        self.salida3(str(salida[0][2]))
+        self.salida1(str(salida[0][0])
+        self.salida2(str(salida[0][1])
+        self.salida3(str(salida[0][2])
         #print "porcentaje de estado malo: " + str(salida[0][0])
         #print "porcentaje de estado bueno: " + str(salida[0][1])
         #print "porcentaje de estado verde: " + str(salida[0][2])
