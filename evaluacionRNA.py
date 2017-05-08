@@ -7,20 +7,17 @@ un tomate.
 from __future__ import division
 import cv2
 import numpy as np
+from PIL import Image
 from os import listdir
+import os
+import neurolab as nl
+import scipy as sp
 
 
 def mostar(imagen):
     imagen = cv2.resize(imagen, (600, 400))
     cv2.imshow('tomate', imagen)
     cv2.waitKey(0)
-
-def recorrer_directorio(carpeta_entrada, carpeta_salida, lista_imagenes):
-    for nombre_imagen in lista_imagenes:
-        print nombre_imagen
-        imagen = cv2.imread(carpeta_entrada + "/" +nombre_imagen)
-        encontrar = ecnontrar_tomate(imagen)
-        cv2.imwrite(carpeta_salida + "/" + nombre_imagen, encontrar)
 
 def encontar_contorno(imagen):
     imagen = imagen.copy()
@@ -76,8 +73,63 @@ def ecnontrar_tomate(imagen):
     # recortar(rectangulo_tomate)
     return rectangulo_tomate
 
-recorrer_directorio("tomates-buenos", "tomates-recortados-buenos", listdir("./tomates-buenos"))
-recorrer_directorio("tomates-malos", "tomates-recortados-malos", listdir("./tomates-malos"))
-recorrer_directorio("tomates-verdes", "tomates-recortados-verdes", listdir("./tomates-verdes"))
+"""
+
+===============================================================================================================
+
+"""
+
+def sacar_pixels(imagen):
+    #se abre la imagen
+    im = Image.open(imagen)
+    im = im.resize((40, 10), Image.ANTIALIAS)
+    #im.save("hola.jpg")
+    #lectura de pixels
+    pixels = im.load()
+
+    filas, columnas = im.size
+    decimales = 4
+    cadena = ""
+    for columna in range (columnas):
+        for fila in range(filas):
+            #se separan los valores RGB y se escriben en el archivo
+            rojo = str(normalizar(pixels[fila,columna][0]))
+            verde = str(normalizar(pixels[fila,columna][1]))
+            azul = str(normalizar(pixels[fila,columna][2]))
+            cadena = cadena + rojo[:rojo.find(".")+decimales] + " " + verde[:verde.find(".")+decimales] + " " + azul[:azul.find(".")+decimales] + " "
+
+    return cadena
 
 
+def normalizar(valor):
+    salida = (valor*1.)/255.
+    return salida
+    
+"""
+=======================================================================================
+"""
+
+imagen = cv2.imread("prueba.jpg")
+imagen = ecnontrar_tomate(imagen)
+cv2.imwrite("tomate-recortado.jpg",imagen)
+
+cadena =  sacar_pixels("tomate-recortado.jpg")
+
+if(os.path.exists("datos-tomate.csv")== True):
+    os.remove("datos-tomate.csv")
+
+archivo_entrenamiento = open("datos-tomate.csv", "a")
+
+archivo_entrenamiento.write(cadena)
+archivo_entrenamiento.close()
+
+datos = np.matrix(sp.genfromtxt("datos-tomate.csv", delimiter=" "))
+
+print datos.shape
+
+rna = nl.load("red-neuronal-artificial.tmt")
+
+salida = rna.sim(datos)
+print "porcentaje de estado malo: " + str(salida[0][0])
+print "porcentaje de estado bueno: " + str(salida[0][1])
+print "porcentaje de estado verde: " + str(salida[0][2])
