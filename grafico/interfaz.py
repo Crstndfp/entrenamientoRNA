@@ -1,3 +1,6 @@
+"""
+    Librerias necesarias para el funionanmiento de la interfaz
+"""
 from __future__ import division
 import cv2
 import numpy as np
@@ -5,10 +8,8 @@ from os import listdir
 import os
 import neurolab as nl
 import scipy as sp
-
-import cPickle as Pickle
-
-
+import cPickle as pickle
+import dill
 from Tkinter import *
 from PIL import Image, ImageTk
 from Tkinter import Tk, Label, BOTH, RAISED, RIGHT
@@ -26,12 +27,21 @@ class Tomate(Frame):
     global sacar_pixels
     global normalizar
 
+    """
+        muestra tkflied para abrir un archivo
+        guarda la ruta del archivo
+        llama al metodo neuronas que es donde hace la evaluacion de la imagen
+        y retorna
+    """
     def abrir(self):
         Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
         filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
         self.neuronas(filename)
         self.imagen(filename)
 
+        """
+        carga la imagen que se slecciono en pantalla
+        """
     def imagen(self, filename):
         bard = Image.open(filename)
         bard = bard.resize((400,550), Image.ANTIALIAS)
@@ -40,11 +50,19 @@ class Tomate(Frame):
         label1.image = bardejov
         label1.place(x=10, y=25)
 
+        """
+        funcion principal de la clase
+        """
 
     def __init__(self, parent):
         Frame.__init__(self, parent)
         self.parent = parent
         self.initUI()
+
+        """
+        muestra en pantalla los datos obtenidos
+        en el label que se dibuja
+        """
 
     def salida1(self, texto):
         label = Label(self, text=texto, fg="#90ffff", bg="#333", font = "Helvetica 16 bold italic")
@@ -64,12 +82,14 @@ class Tomate(Frame):
         label.place(x=700, y=300)
 
 
-
+        """
+            en este metodo estan doas las funciones a llamar
+        """
     def initUI(self):
         self.parent.title("Tomates")
         self.pack(fill=BOTH, expand=True)
         Style().configure("TFrame", background="#333")
-        self.imagen("inicio.jpg")
+        # self.imagen("inicio.jpg")
         self.salida1("")
         self.salida2("")
         self.salida3("")
@@ -115,6 +135,9 @@ class Tomate(Frame):
         cv2.drawContours(mascara, [mayor_contorno], -1, 255, -1)
         return mayor_contorno, mascara
 
+        """
+        encuentra el rectangulo
+        """
     def contorno_rectangulo(imagen, contorno):
         imagenConElipse = imagen.copy()
         elipse = cv2.fitEllipse(contorno)
@@ -128,6 +151,9 @@ class Tomate(Frame):
         imagenConElipse = imagenConElipse[y:(y + sx*2), x:(x + sy*2)]
         return imagenConElipse
 
+        """
+        encuentra la imagen
+        """
     def ecnontrar_tomate(imagen):
         imagen2 = imagen.copy()
         imagen3 = imagen.copy()
@@ -162,7 +188,9 @@ class Tomate(Frame):
     ===============================================================================================================
 
     """
-
+    """
+    de la imagen cortada saca los pixeles
+    """
     def sacar_pixels(imagen):
         #se abre la imagen
         im = Image.open(imagen)
@@ -184,10 +212,19 @@ class Tomate(Frame):
 
         return cadena
 
-
+        """
+        normaliza las salidas a rangos de 0 y 1
+        """
     def normalizar(valor):
         salida = (valor*1.)/255.
         return salida
+
+
+        """
+        funcion principal del analisi de datos
+        hasta el envio por ls rna
+        devolviendo los datos de entrada
+        """
 
     def neuronas(self, filedir):
         imagen = cv2.imread(filedir)
@@ -200,14 +237,41 @@ class Tomate(Frame):
         archivo_entrenamiento.write(cadena)
         archivo_entrenamiento.close()
         datos = np.matrix(sp.genfromtxt("datos-tomate.csv", delimiter=" "))
-        rna = nl.load('red-neuronal-artificial.tmt')
+        rna = nl.load("red-neuronal-artificial.tmt")
         salida = rna.sim(datos)
         self.salida1(str(salida[0][0]))
         self.salida2(str(salida[0][1]))
         self.salida3(str(salida[0][2]))
-        #print "porcentaje de estado malo: " + str(salida[0][0])
-        #print "porcentaje de estado bueno: " + str(salida[0][1])
-        #print "porcentaje de estado verde: " + str(salida[0][2])
+        podrido = salida[0][0] * 100
+        maduro = salida[0][1] * 100
+        verde = salida[0][2] * 100
+
+        if (podrido > 80.):
+            if (maduro > 40.):
+                resultado = "el tomate esta a punto de podrirse"
+                self.estado(resultado)
+            else:
+                resultado = "el tomate esta podrido"
+                self.estado(resultado)
+        elif (maduro > 80.):
+            if (podrido > 40.):
+                resultado = "el tomate esta pasandose de su madurez"
+                self.estado(resultado)
+            elif (verde > 40.):
+                resultado = "El tomate esta a punto de llegar a su madurez"
+                self.estado(resultado)
+            else:
+                resultado = "El tomate esta en su mejor punto"
+                self.estado(resultado)
+        elif (verde > 80.):
+            if (maduro > 40.):
+                resultado = "el tomate esta madurando"
+                self.estado(resultado)
+            else:
+                resultado = "el tomate esta verde"
+                self.estado(resultado)
+
+
 
 
 
