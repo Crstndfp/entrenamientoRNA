@@ -6,7 +6,10 @@ import os
 import neurolab as nl
 import scipy as sp
 
-import cPickle as Pickle
+import cPickle as pickle
+import dill
+
+
 
 
 from Tkinter import *
@@ -200,14 +203,41 @@ class Tomate(Frame):
         archivo_entrenamiento.write(cadena)
         archivo_entrenamiento.close()
         datos = np.matrix(sp.genfromtxt("datos-tomate.csv", delimiter=" "))
-        rna = nl.load('red-neuronal-artificial.tmt')
+        rna = nl.load("red-neuronal-artificial.tmt")
         salida = rna.sim(datos)
         self.salida1(str(salida[0][0]))
         self.salida2(str(salida[0][1]))
         self.salida3(str(salida[0][2]))
-        #print "porcentaje de estado malo: " + str(salida[0][0])
-        #print "porcentaje de estado bueno: " + str(salida[0][1])
-        #print "porcentaje de estado verde: " + str(salida[0][2])
+        podrido = salida[0][0] * 100
+        maduro = salida[0][1] * 100
+        verde = salida[0][2] * 100
+
+        if (podrido > 80.):
+            if (maduro > 40.):
+                resultado = "el tomate esta a punto de podrirse"
+                self.estado(resultado)
+            else:
+                resultado = "el tomate esta podrido"
+                self.estado(resultado)
+        elif (maduro > 80.):
+            if (podrido > 40.):
+                resultado = "el tomate esta pasandose de su madurez"
+                self.estado(resultado)
+            elif (verde > 40.):
+                resultado = "El tomate esta a punto de llegar a su madurez"
+                self.estado(resultado)
+            else:
+                resultado = "El tomate esta en su mejor punto"
+                self.estado(resultado)
+        elif (verde > 80.):
+            if (maduro > 40.):
+                resultado = "el tomate esta madurando"
+                self.estado(resultado)
+            else:
+                resultado = "el tomate esta verde"
+                self.estado(resultado)
+
+
 
 
 
