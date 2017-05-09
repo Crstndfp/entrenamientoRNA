@@ -79,7 +79,7 @@ class Tomate(Frame):
 
     def estado(self, texto):
         label = Label(self, text=texto, fg="#ff4200", bg="#333", font = "Helvetica 16 bold italic")
-        label.place(x=700, y=300)
+        label.place(x=550, y=350)
 
 
         """
