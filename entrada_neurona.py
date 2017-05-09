@@ -1,3 +1,15 @@
+"""
+programa para leer los recortes de las carpetas especificas
+redimensionar las imgaenes con un algoritmo sin perdida
+tamaño 40 x 10
+normaliza los datos entre 0 y 1 con tres decimales
+agrega 3 datos al final 
+1 0 0 podrido
+0 1 0 maduro
+0 0 1 verde
+lee todos los pixeles de cada imagen y los guarda en datos-entrenamiento-csv
+"""
+
 from PIL import Image
 from os import listdir
 import os
@@ -5,8 +17,9 @@ import os
 def sacar_pixels(direccion, entrada):
     #se abre la imagen
     im = Image.open(direccion)
-    #im = im.resize((40, 10), Image.ANTIALIAS)
-    im = im.resize((100, 50), Image.ANTIALIAS)
+    #redimensiona la imagen con ANTIALIS algoritmo con menos perdida
+    im = im.resize((40, 10), Image.ANTIALIAS)
+    #im = im.resize((100, 50), Image.ANTIALIAS)
     #im.save("hola.jpg")
     #lectura de pixels
     pixels = im.load()
