@@ -15,6 +15,9 @@ def mostar(imagen):
     cv2.imshow('tomate', imagen)
     cv2.waitKey(0)
 
+"""
+    rrecoore el directorio
+"""
 def recorrer_directorio(carpeta_entrada, carpeta_salida, lista_imagenes):
     for nombre_imagen in lista_imagenes:
         print nombre_imagen
@@ -22,6 +25,10 @@ def recorrer_directorio(carpeta_entrada, carpeta_salida, lista_imagenes):
         encontrar = ecnontrar_tomate(imagen)
         cv2.imwrite(carpeta_salida + "/" + nombre_imagen, encontrar)
 
+
+"""
+    Encuentra el contorno de a imagen
+"""
 def encontar_contorno(imagen):
     imagen = imagen.copy()
     img, contornos, jerarquia =\
@@ -33,6 +40,11 @@ def encontar_contorno(imagen):
     mascara = np.zeros(imagen.shape, np.uint8)
     cv2.drawContours(mascara, [mayor_contorno], -1, 255, -1)
     return mayor_contorno, mascara
+
+"""
+    con los datos encontrados de la imagen en su controno
+    se cacula las dimensiones del cuadrdo y su hubicacion
+"""
 
 def contorno_rectangulo(imagen, contorno):
     imagenConElipse = imagen.copy()
@@ -47,6 +59,9 @@ def contorno_rectangulo(imagen, contorno):
     imagenConElipse = imagenConElipse[y:(y + sx*2), x:(x + sy*2)]
     return imagenConElipse
 
+"""
+    Trata la imagen para poder encontrar el cuadrado
+"""
 def ecnontrar_tomate(imagen):
     imagen2 = imagen.copy()
     imagen3 = imagen.copy()
@@ -79,5 +94,3 @@ def ecnontrar_tomate(imagen):
 recorrer_directorio("tomates-buenos", "tomates-recortados-buenos", listdir("./tomates-buenos"))
 recorrer_directorio("tomates-malos", "tomates-recortados-malos", listdir("./tomates-malos"))
 recorrer_directorio("tomates-verdes", "tomates-recortados-verdes", listdir("./tomates-verdes"))
-
-
